@@ -1,0 +1,27 @@
+<!-- 2 endpoints and it doesn't matter which comes first
+if you have 2 promises and one is not dependent upon the other use .all
+ -->
+
+<html>
+  <head>
+  </head>
+  <body>
+    <script>
+    const PRODUCTS_URL = 'https://acme-users-api-rev.herokuapp.com/api/products';
+    const COMPANIES_URL = 'https://acme-users-api-rev.herokuapp.com/api/companies'
+    // Promise.all([fetch( PRODUCTS_URL), fetch( COMPANIES_URL)])
+    // //.then( response => console.log(response));//check to see
+    // .then( response => response[1].json())  //data for all the companies
+    // .then( data => console.log(data));
+    /*******************************************/
+    Promise.all([fetch( PRODUCTS_URL), fetch( COMPANIES_URL)])
+    //.then( response => console.log(response));
+    .then( responses => Promise.all(responses.map(responses=> responses.json())))  //data for both products(1st) companies (2nd)
+    .then( results => {
+      const products = results[0];
+      const companies = results[1];
+      console.log(products[0].suggestedPrice);
+    });
+  </script>
+  </body>
+</html>
